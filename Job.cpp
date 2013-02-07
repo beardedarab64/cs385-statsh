@@ -1,7 +1,7 @@
 #include "Job.h"
 
 /***************************************************************************************
-*
+* AWESOME CONSTRUCTORS
 ***************************************************************************************/
 Job::Job():
 	commands(),
@@ -10,9 +10,6 @@ Job::Job():
 {
 }
 
-/***************************************************************************************
-*
-***************************************************************************************/
 Job::Job( const string& line):
 	commands(),
 	inBackground(0),
@@ -22,9 +19,10 @@ Job::Job( const string& line):
 }
 
 /***************************************************************************************
-*
+* Executes each command setting up the input/output of each according to piping/redire
+* ction requirements
 ***************************************************************************************/
-int Job::execute( )
+void Job::execute( )
 {
 	size_type i;
 	int piperead;
@@ -93,7 +91,6 @@ int Job::execute( )
 	
 	if( pipes[0]>0) cClose( pipes[0]);
 
-	return 63;
 }
 
 /***************************************************************************************
@@ -115,7 +112,7 @@ bool Job::bgWait()
 }
 
 /***************************************************************************************
-*
+* Blocks to wait for each process to finish 
 ***************************************************************************************/
 bool Job::forceWait()
 {
@@ -127,7 +124,7 @@ bool Job::forceWait()
 
 
 /***************************************************************************************
-*
+* parses <pstr> to populate members <commands> and <inBackground>
 ***************************************************************************************/
 Job& Job::operator =( const string& pstr)
 {
@@ -157,7 +154,7 @@ Job& Job::operator =( const string& pstr)
 }
 
 /***************************************************************************************
-*
+* Resturns a readable string representation of the object
 ***************************************************************************************/
 string Job::toString() const
 {
@@ -167,11 +164,22 @@ string Job::toString() const
 	for(size_type i=0; i<ncommands; i++)
 	{
 		ret += commands[i].toString();
-		if( i<ncommands-1) ret += "| ";
+		if( i<ncommands-1) ret += " | ";
 	}
 
 	return ret;
 }
+
+/***************************************************************************************
+* Returns the total time taken by its processes
+***************************************************************************************/
+double Job::getTime( TimeType type) const
+{
+	double ret = 0;
+	for( size_type i=0; i<commands.size(); i++) ret += commands[i].getTime( type);
+	return ret;
+}
+
 
 
 

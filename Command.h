@@ -8,6 +8,10 @@
 #include "CFuncs.h"
 #include "Misc.h"
 
+#define USERTIME 1
+#define SYSTEMTIME 0
+
+
 using namespace std;
 
 class Command
@@ -39,10 +43,13 @@ public:
 	string toString() const;
 	operator pid_t() const;
 	bool isRunning() const;
+	double getTime( TimeType) const;
 
-};
+}; 
 
 inline bool Command::isRunning() const { return running; }
+inline string Command::readFilename() const { return readFile;}
+inline string Command::writeFilename() const { return writeFile;}
 
 #endif //COMMAND_H
 

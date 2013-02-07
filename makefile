@@ -1,21 +1,29 @@
-statsh: statsh.cpp Job.o Command.o CFuncs.o Misc.o
-	@g++ -Wall -g -o$@ $< Job.o Command.o CFuncs.o Misc.o
-	@rm -f ./*.o
+TARGET = statsh
+COMPILER_OPTIONS = -Wall -g -Wno-format-security
+COMPILE = @g++ -c $(COMPILER_OPTIONS) -o$@ $<
+COMPILE_N_LINK = @g++ $(COMPILER_OPTIONS) -o$@ $<
+
+OBJECTS =	obj/Job.o \
+			obj/Command.o \
+			obj/CFuncs.o \
+			obj/Misc.o		
+
+$(TARGET): statsh.cpp $(OBJECTS)
+	@echo compiling and linking [$@]
+	$(COMPILE_N_LINK) $(OBJECTS)
+
 rebuild: clean statsh
-run: clean statsh
-	@./statsh
-	@rm -f ./statsh
-Job.o: Job.cpp Job.h
-	@g++ -Wall -g -c -o$@ $<
-Command.o: Command.cpp Command.h
-	@g++ -Wall -g -c -o$@ $<
-CFuncs.o: CFuncs.cpp CFuncs.h
-	@g++ -Wall -g -c -o$@ $<
-Misc.o: Misc.cpp Misc.h
-	@g++ -Wall -g -c -o$@ $<
+
+obj/%.o: %.cpp %.h
+	@echo building [$@]
+	$(COMPILE)
+
+run: statsh
+	@./$(TARGET)
+
 clean:
-	@rm -f ./statsh
-	@rm -f ./*.o
+	@rm -f ./$(TARGET)
+	@rm -f ./obj/*.o
 
 
 

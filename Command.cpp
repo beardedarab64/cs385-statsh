@@ -38,13 +38,18 @@ string Command::toString() const
 	string ret;
 
 	for( unsigned int i=0; i<args.size(); i++)
-		ret += args[i] + " ";
-	
+	{
+		ret += args[i];
+		if( i<args.size()-1) ret += " ";
+	}
+
+	if( readFile.size() || writeFile.size()) ret += " ";
+
 	if( readFile.size())
-		(ret += "< ") += readFile + " ";
+		(ret += "< ") += readFile;
 
 	if( writeFile.size())
-		(ret += "> ") += writeFile + " ";
+		(ret += "> ") += writeFile;
 
 	return ret;
 	/*
@@ -117,22 +122,6 @@ pid_t Command::execute( int input, int output)
 	
 	running = 1;
 	return pid;
-}
-
-/***************************************************************************************
-* Returns the file name the command is supposed to read from
-***************************************************************************************/
-string Command::readFilename() const
-{
-	return readFile;
-}
-
-/***************************************************************************************
-* Returns the file name the command is supposed to write to
-***************************************************************************************/
-string Command::writeFilename() const
-{
-	return writeFile;
 }
 
 /***************************************************************************************
@@ -217,7 +206,7 @@ bool Command::bgWait( )
 
 /***************************************************************************************
 * Returns 1 if it reaps its unreaped process, 0 otherwise.
-* Populates command info field if returned 1
+* Populates <processInfo> field if returned 1
 ***************************************************************************************/
 bool Command::fgWait()
 {
@@ -236,6 +225,26 @@ bool Command::fgWait()
 	return ret;
 }
 
+/***************************************************************************************
+* Returns the number of seconds elapsed in executing this command according to the 
+* information in member processInfo
+***************************************************************************************/
+double Command::getTime( TimeType type) const
+{
+	long int sec;
+	long int usec;
+	if( type == USER)
+	{
+		sec = processInfo.ru_utime.tv_sec;
+		usec = processInfo.ru_utime.tv_usec;
+	}
+	else
+	{
+		sec = processInfo.ru_stime.tv_sec;
+		usec = processInfo.ru_stime.tv_usec;
+	}
 
+	return( (double)sec + usec/(double)1000000);
+}
 
 

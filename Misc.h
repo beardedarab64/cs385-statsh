@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+enum TimeType { USER, SYSTEM};
 
 using namespace std;
 

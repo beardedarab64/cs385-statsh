@@ -5,6 +5,7 @@
 #include <sys/wait.h>
 #include "Command.h"
 #include "CFuncs.h"
+#include "Misc.h"
 
 using namespace std;
 
@@ -22,7 +23,7 @@ public:
 	Job();
 	Job( const string&);
 
-	int execute();
+	void execute();
 	Job& operator =( const string&);
 	bool bgWait();
 	bool forceWait();
@@ -30,6 +31,8 @@ public:
 	string toString() const;
 	int getNCommands() const;
 	bool inbg() const;
+	double getTime( TimeType) const;
+	
 
 
 };
