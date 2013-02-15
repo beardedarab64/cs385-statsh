@@ -114,14 +114,12 @@ void printTitle( const char* title, int width)
 void printStats( const vector<Job>& completed, const vector<Job>& running)
 {	
 	const int row_width = 75;
-	const char* running_title = "RUNNING JOBS";
-	const char* completed_title = "COMPLETED JOBS";
 	vector<Job>::size_type i;
 	vector<Job>::size_type ncompleted = completed.size();
 	vector<Job>::size_type nrunning = running.size();
 
 	// Print running and completed job stats
-	printTitle( running_title, row_width);
+	printTitle( "RUNNING JOBS", row_width);
 	
 	if( !running.size()) 
 		printf( "No jobs running in the background\n");
@@ -131,14 +129,17 @@ void printStats( const vector<Job>& completed, const vector<Job>& running)
 
 	printf( "\n");
 
-	printTitle( completed_title, row_width);
+	printTitle( "COMPLETED JOBS", row_width);
 	if( !completed.size())
 		printf( "No jobs executed\n");
 	else
 		for( i=0; i<ncompleted; i++) printJobStat( completed[i]);
 
+	printf( "\n");
+
 	// Print current time
 	//int getrusage(int who, struct rusage *usage);
+	printTitle( "STATSH STATISTICS", row_width);
 	struct rusage usage; memset( &usage, 0, sizeof( struct rusage));
 	double sys_time, usr_time;
 	getrusage( RUSAGE_CHILDREN, &usage);
@@ -155,7 +156,7 @@ void printStats( const vector<Job>& completed, const vector<Job>& running)
 **************************************************************************************************/
 void printJobStat( const Job& job)
 {
-	printf("Job [%s]\n\tUser time [%.2f seconds]\n\tSystem time [%.2f seconds]\n\n",
+	printf("Job [%s]\n\tUser time [%.2f seconds]\n\tSystem time [%.2f seconds]\n",
 		job.toString().c_str(), 
 		job.getTime(USER),
 		job.getTime(SYSTEM));
