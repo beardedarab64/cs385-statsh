@@ -12,7 +12,7 @@
 using namespace std;
 
 void printStats( const vector<Job>&, const vector<Job>&);
-
+void printJobStat( const Job&);
 
 /***************************************************************************************
 * ENTRY POINT
@@ -22,8 +22,8 @@ int main( int argc, char* argv[])
 	string in;
 	bool flag = 0;
 	Job job;
-	vector<Job> jobDump;
-	vector<Job> runningJobs;
+	vector<Job> jobDump; //completed jobs
+	vector<Job> runningJobs;//running jobs
 	vector<Job>::size_type i;
 	const char* user_cstr = getenv( "USER");
 	string prompt = (user_cstr) ? user_cstr : ""; prompt += "$ ";
@@ -32,10 +32,9 @@ int main( int argc, char* argv[])
 	printf( "ID/email: sherre9@uic.edu\n");
 	printf( "Class: CS 385, University of Illinois at Chicago\n\n");
  
-
-	//*
 	while( !flag)
 	{
+		// prompt and get line
 		printf("%s", prompt.c_str());
 		getline( cin, in);
 		in = trim( in);
@@ -45,40 +44,38 @@ int main( int argc, char* argv[])
 		{
 			if( runningJobs[i].bgWait())
 			{
-				printf( "[%d]+ Done %s\n", runningJobs[i].id, runningJobs[i].toString().c_str());
+				printf( "[%d]+ Done [%s]\n", runningJobs[i].id, runningJobs[i].toString().c_str());
+				printJobStat( runningJobs[i]);
 				jobDump.push_back( runningJobs[i]);
 				runningJobs.erase( runningJobs.begin()+i);
 				i--;
 			}
 		}
+		
+		job = in;
 
 		if( in == "exit") 
 			flag = 1;
 		else if( in == "stats")
 			printStats( jobDump, runningJobs);
-		else
+		else if( job.getNCommands())
 		{
-			job = in;
+			job.execute();
 
-			if( job.getNCommands())
+			if( job.inbg())
 			{
-				job.execute();
-
-				if( job.inbg())
-				{
-					job.id = runningJobs.size();
-					printf( "[%d]\n", job.id);
-					runningJobs.push_back( job);
-				}
-				else
-				{
-					job.forceWait();
-					jobDump.push_back( job);
-				}
+				job.id = runningJobs.size();
+				printf( "[%d]\n", job.id);
+				runningJobs.push_back( job);
+			}
+			else
+			{
+				job.forceWait();
+				jobDump.push_back( job);
+				printJobStat( job);
 			}
 		}
 	}	
-	//*/
 
 	printStats( jobDump, runningJobs);
 	return 0;
@@ -130,13 +127,18 @@ void printStats( const vector<Job>& completed, const vector<Job>& running)
 	if( !completed.size())
 		printf( "No jobs executed\n");
 	else
-		for( i=0; i<ncompleted; i++)
-			printf("Job [%s]\n\tUser time [%.2f seconds]\n\tSystem time [%.2f seconds]\n\n",
-				completed[i].toString().c_str(), 
-				completed[i].getTime(USER),
-				completed[i].getTime(SYSTEM)
-			);
+		for( i=0; i<ncompleted; i++) printJobStat( completed[i]);
 			
+}
+
+/**************************************************************************************************
+**************************************************************************************************/
+void printJobStat( const Job& job)
+{
+	printf("Job [%s]\n\tUser time [%.2f seconds]\n\tSystem time [%.2f seconds]\n\n",
+		job.toString().c_str(), 
+		job.getTime(USER),
+		job.getTime(SYSTEM));
 }
 
 
