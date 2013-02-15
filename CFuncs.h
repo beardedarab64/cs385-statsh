@@ -1,3 +1,11 @@
+/**************************************************************************************************
+* Author: Santiago Herrera
+* Email: sherre9@uic.edu
+* Date: 02/2013
+* Couse: CS385 - Operating Systems
+* University: University of Illinois at Chicago
+**************************************************************************************************/
+
 #ifndef CFUNCS_C
 #define CFUNCS_C
 

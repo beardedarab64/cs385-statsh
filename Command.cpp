@@ -52,17 +52,6 @@ string Command::toString() const
 		(ret += "> ") += writeFile;
 
 	return ret;
-	/*
-	string ret = "args:";
-	for( unsigned int i=0; i<args.size(); i++)
-		ret += "["+args[i]+"]";
-	
-	ret += " readFile:[" + readFile + "]";
-	ret += " writeFile:[" + writeFile + "]";
-	ret += " err:[" + err + "]";
-	
-	return ret;
-	//*/
 }
 
 /***************************************************************************************

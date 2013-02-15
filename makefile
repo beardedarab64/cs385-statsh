@@ -3,10 +3,10 @@ COMPILER_OPTIONS = -Wall -g -Wno-format-security
 COMPILE = @g++ -c $(COMPILER_OPTIONS) -o$@ $<
 COMPILE_N_LINK = @g++ $(COMPILER_OPTIONS) -o$@ $<
 
-OBJECTS =	obj/Job.o \
-			obj/Command.o \
-			obj/CFuncs.o \
-			obj/Misc.o		
+OBJECTS =	Job.o \
+			Command.o \
+			CFuncs.o \
+			Misc.o		
 
 $(TARGET): statsh.cpp $(OBJECTS)
 	@echo compiling and linking [$@]
@@ -14,7 +14,7 @@ $(TARGET): statsh.cpp $(OBJECTS)
 
 rebuild: clean statsh
 
-obj/%.o: %.cpp %.h
+%.o: %.cpp %.h
 	@echo building [$@]
 	$(COMPILE)
 
@@ -23,7 +23,7 @@ run: statsh
 
 clean:
 	@rm -f ./$(TARGET)
-	@rm -f ./obj/*.o
+	@rm -f ./*.o
 
 
 

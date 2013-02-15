@@ -1,3 +1,11 @@
+/**************************************************************************************************
+* Author: Santiago Herrera
+* Email: sherre9@uic.edu
+* Date: 02/2013
+* Couse: CS385 - Operating Systems
+* University: University of Illinois at Chicago
+**************************************************************************************************/
+
 #ifndef JOB_H
 #define JOB_H
 
@@ -32,9 +40,6 @@ public:
 	int getNCommands() const;
 	bool inbg() const;
 	double getTime( TimeType) const;
-	
-
-
 };
 
 inline int Job::getNCommands() const { return (int)commands.size();}

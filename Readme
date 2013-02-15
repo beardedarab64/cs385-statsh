@@ -1,0 +1,29 @@
+***************************************************************************************************
+* Author: Santiago Herrera                                                                        *
+* Email: sherre9@uic.edu                                                                          *
+* Date: 02/2013                                                                                   *
+* Couse: CS385 - Operating Systems                                                                *
+* University: University of Illinois at Chicago                                                   *
+***************************************************************************************************
+
+This program was developed to simulate the behavior of a shell like bash. It complies with the 
+minimum requirements specified in the project description document, and does not implement any of
+the optional requirements proposed in the document.
+
+This program defines 2 main class objects declared in Command.h and Job.h, respectively. It also
+uses different helper methods defined in CFuncs.h, and Misc.h
+
+Command.h:	Represents a single command such as "ls -l" or "cp file1 file2". This is the object
+			that performs the actual fork() operation
+
+Job.h:		Represents an entire job composed of many commands entered by the user at the command
+			prompt. These commands can be pipelined and/or asked to run in the background. This
+			object defines/creates the input/output file descriptors that the actual commands
+			are going to use as their input and output.
+
+CFuncs.h:	Contains wrappers of C-system functions that check for errors.
+
+Misc.h		Declares multiple-purpose operations such as tokenize() to split strings between a 
+			specified character like a space.
+
+

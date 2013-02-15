@@ -1,3 +1,11 @@
+/**************************************************************************************************
+* Author: Santiago Herrera
+* Email: sherre9@uic.edu
+* Date: 02/2013
+* Couse: CS385 - Operating Systems
+* University: University of Illinois at Chicago
+**************************************************************************************************/
+
 #include <stdio.h>
 #include <vector>
 #include <string>
@@ -108,11 +116,11 @@ void printStats( const vector<Job>& completed, const vector<Job>& running)
 	const int row_width = 75;
 	const char* running_title = "RUNNING JOBS";
 	const char* completed_title = "COMPLETED JOBS";
-
 	vector<Job>::size_type i;
 	vector<Job>::size_type ncompleted = completed.size();
 	vector<Job>::size_type nrunning = running.size();
 
+	// Print running and completed job stats
 	printTitle( running_title, row_width);
 	
 	if( !running.size()) 
@@ -128,7 +136,19 @@ void printStats( const vector<Job>& completed, const vector<Job>& running)
 		printf( "No jobs executed\n");
 	else
 		for( i=0; i<ncompleted; i++) printJobStat( completed[i]);
-			
+
+	// Print current time
+	//int getrusage(int who, struct rusage *usage);
+	struct rusage usage; memset( &usage, 0, sizeof( struct rusage));
+	double sys_time, usr_time;
+	getrusage( RUSAGE_CHILDREN, &usage);
+	sys_time = (double)usage.ru_stime.tv_sec + usage.ru_stime.tv_usec/(double)1000000;
+	usr_time = (double)usage.ru_utime.tv_sec + usage.ru_utime.tv_usec/(double)1000000;
+
+	printf( "statsh User time [%.2f seconds]\nstatsh System time [%.2f seconds]\n\n"
+			, usr_time, sys_time);
+
+
 }
 
 /**************************************************************************************************
