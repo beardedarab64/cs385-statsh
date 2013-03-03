@@ -7,8 +7,8 @@
 ***************************************************************************************************
 
 This program was developed to simulate the behavior of a shell like bash. It complies with the 
-minimum requirements specified in the project description document, and does not implement any of
-the optional requirements proposed in the document.
+minimum requirements specified in the project description document named HW1-385.pdf, and does not
+implement any of the optional requirements proposed in the document.
 
 This program defines 2 main class objects declared in Command.h and Job.h, respectively. It also
 uses different helper methods defined in CFuncs.h, and Misc.h
